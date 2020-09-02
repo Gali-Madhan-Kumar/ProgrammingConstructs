@@ -8,6 +8,8 @@ singletHeads=0
 singletTails=0
 doubletTails=0
 doubletHeads=0
+tripletHeads=0
+tripletTails=0
 
 for ((i=0; i<2; i+=1))
 do
@@ -76,4 +78,40 @@ then
 else
 	echo ""
         echo -n " HT "
+fi
+
+for ((i=0; i<10; i+=1))
+do
+        flipCoin=$((RANDOM % 2))
+
+        if [ $flipCoin -eq $isHeads ]
+        then
+                ((tripletHeads+=1))
+                flipCoinDict[tripletHeads]=$tripletHeads
+        else
+                ((tripletTails+=1))
+                flipCoinDict[tripletTails]=$tripletTails
+        fi
+done
+
+totalTriplettHeads=${flipCoinDict[tripletHeads]}
+totalTripletTails=${flipCoinDict[tripletTails]}
+
+if [[ $totalTripletHeads -gt $totalTripletTails ]]
+then
+        echo ""
+        for ((i=0; i<$totalTripletHeads; i+=1))
+        do
+                echo -n "HHH "
+        done
+elif [[ $totalTripletHeads -lt $totalTripletTails ]]
+then
+        echo ""
+        for ((i=0; i<$totalTripletTails; i+=1))
+        do
+                echo -n "TTT "
+        done
+else
+        echo ""
+        echo -n " HTH "
 fi
