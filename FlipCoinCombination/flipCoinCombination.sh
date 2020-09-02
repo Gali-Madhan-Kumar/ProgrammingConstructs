@@ -115,3 +115,15 @@ else
         echo ""
         echo -n " HTH "
 fi
+
+headWins=$((totalSingletHeads + totalDoubletHeads + totalTripletHeads))
+tailWins=$((totalSingletTails + totalDoubletTails + totalTripletTails))
+
+if [ $headWins -gt $tailWins ]
+then
+	echo ""
+	echo "Head win"
+else
+	echo ""
+	echo "Tail win"
+fi
