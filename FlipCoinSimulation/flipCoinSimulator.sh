@@ -1,20 +1,36 @@
 #! /bin/bash
 
 heads=0
-tails=0
+tails=1
+totalHeads=0
+totalTails=0
+tie=0
 
-counter=0
-
-while [ counter < 5 ]
+while [ $totalHeads -lt 21 ] && [ $totalTails -lt 21 ]
 do
 
 	flipCoin=$((RANDOM % 2))
 
-	if [ $flipCoin -eq heads ]
+	if [ $flipCoin -eq $heads ]
 	then
-		((heads = $((heads + 1))))
+		((totalHeads = $((totalHeads + 1))))
+	elif [ $flipCoin -eq $tails ]
+	then
+		((totalTails = $((totalTails + 1))))
 	else
-		((tails = $((tails + 1))))
+		((tie = $((tie + 1))))
 	fi
-	((counter++))
 done
+
+echo "Total Heads = " $totalHeads
+echo "Total Tails = " $totalTails
+
+if [ $tie -eq 1 ]
+then
+	echo "Tie"
+elif [ $totalHeads -eq 21 ]
+then
+	echo "Head wins $((totalHeads - totalTails)) times more than tails"
+else
+	echo "Tail wins $((totalTails - totalHeads)) times more than heads"
+fi  
