@@ -4,38 +4,76 @@ declare -A flipCoinDict
 
 isHeads=0
 
-tails=0
-heads=0
+singletHeads=0
+singletTails=0
+doubletTails=0
+doubletHeads=0
 
-flipCoinDict[heads]=0
-flipCoinDict[tails]=0
-
-i=0
-
-while [ $i -lt 2 ]
+for ((i=0; i<2; i+=1))
 do
 	flipCoin=$((RANDOM % 2))
-
+	
 	if [ $flipCoin -eq $isHeads ]
 	then
-		((heads += $((heads + 1))))
-		flipCoinDict[heads]=$heads
-	else 
-		((tails += $((tails + 1))))
-		flipCoinDict[tails]=$tails
+		((singletHeads+=1))
+		flipCoinDict[singletHeads]=$heads
+	else
+		((singletTails+=1))
+		flipCoinDict[singletTails]=$singletTails
 	fi
-((i++))
 done
 
-totalHeads=${flipCoinDict[heads]}
-totalTails=${flipCoinDict[tails]}
+totalSingletHeads=${flipCoinDict[singletHeads]}
+totalSingletTails=${flipCoinDict[singletTails]}
 
-for ((j=0; j<$totalHeads; j+=1))
+if [[ $totalSingletHeads -gt $totalSingletTails ]]
+then
+	for ((i=0; i<$totalSingletHeads; i+=1))
+	do
+		echo -n "H "
+	done
+elif [[ $totalSingletHeads -lt $totalSingletTails ]]
+then
+	for ((i=0; i<$totalSingletTails; i+=1))
+        do
+                echo -n "T "
+        done
+else
+	echo -n " H T "
+fi
+
+for ((i=0; i<10; i+=1))
 do
-	echo -n "H " 
+        flipCoin=$((RANDOM % 2))
+
+        if [ $flipCoin -eq $isHeads ]
+        then
+                ((doubletHeads+=1))
+                flipCoinDict[doubletHeads]=$doubletHeads
+        else
+                ((doubletTails+=1))
+                flipCoinDict[doubletTails]=$doubletTails
+        fi
 done
 
-for ((k=0; k<$totalTails; k+=1))
-do
-	echo -n "T "
-done
+totalDoubletHeads=${flipCoinDict[doubletHeads]}
+totalDoubletTails=${flipCoinDict[doubletTails]}
+
+if [[ $totalDoubletHeads -gt $totalDoubletTails ]]
+then	
+	echo ""
+        for ((i=0; i<$totalDoubletHeads; i+=1))
+        do	
+                echo -n "HH "
+        done
+elif [[ $totalDoubletHeads -lt $totalDoubletTails ]]
+then
+	echo ""
+        for ((i=0; i<$totalDoubletTails; i+=1))
+        do
+                echo -n "TT "
+        done
+else
+	echo ""
+        echo -n " HT "
+fi
