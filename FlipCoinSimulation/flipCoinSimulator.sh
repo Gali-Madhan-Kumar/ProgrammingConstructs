@@ -16,4 +16,5 @@ do
 	else
 		((tails = $((tails + 1))))
 	fi
+	((counter++))
 done
